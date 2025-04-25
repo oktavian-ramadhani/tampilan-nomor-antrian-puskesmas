@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasien - Sistem Antrian</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="Logo" id="pasien-logo-img">
+            <h1 id="pasien-instansi-nama">Puskesmas Sehat Sejahtera</h1>
+        </div>
+        <div class="date-time">
+            <div id="pasien-current-time"></div>
+            <div id="pasien-current-date"></div>
+        </div>
+    </header>
+
+    <div class="pasien-container">
+        <div class="take-number-container">
+            <h2>Pendaftaran Antrian</h2>
+            <p>Silakan tekan tombol di bawah untuk mendapatkan nomor antrian</p>
+            <button id="take-number-btn" class="primary-btn">Ambil Nomor Antrian</button>
+        </div>
+
+        <div id="queue-result" class="hidden">
+            <div class="queue-result-content">
+                <h2>Nomor Antrian Anda</h2>
+                <div class="result-number" id="result-number"></div>
+                <p>Mohon menunggu hingga nomor Anda dipanggil. Terima kasih.</p>
+                <button id="close-result-btn" class="secondary-btn">Tutup</button>
+                <button id="print-ticket-btn" class="primary-btn">Cetak Tiket</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="pasien.js"></script>
+</body>
+</html>

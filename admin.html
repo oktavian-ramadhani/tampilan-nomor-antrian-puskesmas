@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Sistem Antrian</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <img src="assets/logo.png" alt="Logo" class="login-logo">
+            <h2>Login Admin</h2>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password">
+            </div>
+            <button id="login-btn">Login</button>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="admin-panel hidden">
+        <header>
+            <div class="logo-container">
+                <img src="assets/logo.png" alt="Logo" id="admin-logo-img">
+                <h1 id="admin-instansi-nama">Puskesmas Sehat Sejahtera</h1>
+            </div>
+            <div class="date-time">
+                <div id="admin-current-time"></div>
+                <div id="admin-current-date"></div>
+            </div>
+        </header>
+
+        <div class="admin-container">
+            <div class="sidebar">
+                <button class="sidebar-btn active" data-target="queue-management">Manajemen Antrian</button>
+                <button class="sidebar-btn" data-target="display-settings">Pengaturan Tampilan</button>
+                <button class="sidebar-btn" data-target="system-settings">Pengaturan Sistem</button>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+
+            <div class="admin-content">
+                <div id="queue-management" class="admin-section active">
+                    <h2>Manajemen Antrian</h2>
+                    <div class="queue-controls">
+                        <div class="current-queue-display">
+                            <h3>Antrian Saat Ini</h3>
+                            <div class="admin-queue-number" id="admin-current-number">-</div>
+                        </div>
+                        <div class="queue-actions">
+                            <button id="call-next-btn" class="primary-btn">Panggil Berikutnya</button>
+                            <button id="reset-queue-btn" class="danger-btn">Reset Antrian</button>
+                        </div>
+                        <div class="queue-note-section">
+                            <h3>Catatan Antrian</h3>
+                            <textarea id="queue-note-input" placeholder="Masukkan catatan untuk ditampilkan..."></textarea>
+                            <button id="update-note-btn" class="primary-btn">Perbarui Catatan</button>
+                        </div>
+                    </div>
+                    <div class="queue-status">
+                        <h3>Status Antrian</h3>
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <span>Total Antrian:</span>
+                                <span id="total-queue">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span>Antrian Tersisa:</span>
+                                <span id="remaining-queue">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span>Antrian Terlewati:</span>
+                                <span id="processed-queue">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="display-settings" class="admin-section">
+                    <h2>Pengaturan Tampilan</h2>
+                    <div class="settings-section">
+                        <h3>Identitas Instansi</h3>
+                        <div class="settings-group">
+                            <div class="input-group">
+                                <label for="instansi-name-input">Nama Instansi</label>
+                                <input type="text" id="instansi-name-input" placeholder="Masukkan nama instansi">
+                            </div>
+                            <div class="input-group">
+                                <label>Logo Instansi</label>
+                                <div class="logo-upload">
+                                    <img id="logo-preview" src="assets/logo.png" alt="Logo Preview">
+                                    <div>
+                                        <input type="file" id="logo-upload" accept="image/*">
+                                        <button id="change-logo-btn" class="secondary-btn">Ubah Logo</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Pengaturan Slideshow</h3>
+                        <div class="slideshow-settings">
+                            <div class="slideshow-list" id="slideshow-list">
+                                <!-- Slides will be added dynamically with JavaScript -->
+                            </div>
+                            <div class="slideshow-controls">
+                                <button id="add-slide-btn" class="primary-btn">Tambah Slide</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Running Text</h3>
+                        <div class="input-group">
+                            <textarea id="running-text-input" placeholder="Masukkan teks berjalan"></textarea>
+                        </div>
+                    </div>
+                    <div class="settings-actions">
+                        <button id="save-display-settings" class="primary-btn">Simpan Pengaturan</button>
+                    </div>
+                </div>
+
+                <div id="system-settings" class="admin-section">
+                    <h2>Pengaturan Sistem</h2>
+                    <div class="settings-section">
+                        <h3>Keamanan</h3>
+                        <div class="input-group">
+                            <label for="current-password">Password Saat Ini</label>
+                            <input type="password" id="current-password" placeholder="Masukkan password saat ini">
+                        </div>
+                        <div class="input-group">
+                            <label for="new-password">Password Baru</label>
+                            <input type="password" id="new-password" placeholder="Masukkan password baru">
+                        </div>
+                        <div class="input-group">
+                            <label for="confirm-password">Konfirmasi Password</label>
+                            <input type="password" id="confirm-password" placeholder="Konfirmasi password baru">
+                        </div>
+                        <button id="change-password-btn" class="primary-btn">Ubah Password</button>
+                        <div id="password-error" class="error-message"></div>
+                        <div id="password-success" class="success-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
